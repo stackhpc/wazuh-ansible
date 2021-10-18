@@ -1,18 +1,19 @@
 ---
-
 - import_tasks: local_actions.yml
   when:
     - generate_certs
 
 - block:
-    - import_tasks: RedHat.yml
-      when: ansible_os_family == 'RedHat'
+    - include_tasks: "{{ ansible_facts.os_family }}.yml"
+      when: ansible_facts.os_family in ['Debian', 'RedHat']
 
     - name: Install OpenDistro
       package:
-        name: opendistroforelasticsearch-{{ opendistro_version }}
+        name: opendistroforelasticsearch{{ version_separator }}{{ opendistro_version }}
         state: present
       tags: install
+      vars:
+        version_separator: "{% if ansible_facts.os_family == 'RedHat' %}-{% else %}={% endif %}"
 
     - name: Remove elasticsearch configuration file
       file:
@@ -89,6 +90,6 @@
       when:
         - hostvars[inventory_hostname]['private_ip'] is defined and hostvars[inventory_hostname]['private_ip']
 
-    - import_tasks: "RMRedHat.yml"
-      when: ansible_os_family == "RedHat"
+    - include_tasks: "RM{{ ansible_facts.os_family }}.yml"
+      when: ansible_facts.os_family in ['Debian', 'RedHat']
   when: perform_installation

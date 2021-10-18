@@ -8,15 +8,17 @@
     - ansible_distribution == "Debian"
     - ansible_distribution_major_version == "10"
 
-- import_tasks: RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- include_tasks: "{{ ansible_facts.os_family }}.yml"
+  when: ansible_facts.os_family in ['Debian', 'RedHat']
 
 - name: Install Kibana
   package:
-    name: "opendistroforelasticsearch-kibana-{{ kibana_opendistro_version }}"
+    name: "opendistroforelasticsearch-kibana{{ version_separator }}{{ kibana_opendistro_version }}"
     state: present
   register: install
   tags: install
+  vars:
+    version_separator: "{% if ansible_facts.os_family == 'RedHat' %}-{% else %}={% endif %}"
 
 - name: Remove Kibana configuration file
   file:
@@ -124,5 +126,5 @@
     enabled: true
     state: started
 
-- import_tasks: RMRedHat.yml
-  when: ansible_os_family == 'RedHat'
+- include_tasks: "RM{{ ansible_facts.os_family }}.yml"
+  when: ansible_facts.os_family in ['Debian', 'RedHat']

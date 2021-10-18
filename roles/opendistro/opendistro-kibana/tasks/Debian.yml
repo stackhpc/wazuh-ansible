@@ -1,0 +1,39 @@
+---
+- block:
+
+  - name: Debian/Ubuntu | Install apt-transport-https and ca-certificates
+    apt:
+      name:
+        - apt-transport-https
+        - ca-certificates
+        - gnupg
+      state: present
+      cache_valid_time: 3600
+      install_recommends: false
+
+  - name: Debian/Ubuntu | Installing OpenDistro repository key
+    apt_key:
+      url: "{{ package_repos.apt.opendistro.gpg }}"
+      id: "{{ package_repos.apt.opendistro.key_id }}"
+
+  - name: Debian/Ubuntu | Add OpenDistro repo
+    apt_repository:
+      repo: "{{ package_repos.apt.opendistro.repo }}"
+      state: present
+      update_cache: true
+    changed_when: false
+
+  - name: Debian/Ubuntu | Install OpenJDK 11
+    package:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: Debian/Ubuntu | Install OpenDistro dependencies
+    package:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - unzip
+
+  tags:
+  - install

@@ -1,0 +1,6 @@
+---
+- name: Debian/Ubuntu | Remove OpenDistro repository (and clean up left-over metadata)
+  apt_repository:
+    repo: "{{ package_repos.apt.opendistro.repo }}"
+    state: absent
+  changed_when: false

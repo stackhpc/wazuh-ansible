@@ -1,6 +1,6 @@
 ---
 # Cluster Settings
-opendistro_version: 1.13.2
+opendistro_version: 1.13.2-1
 
 single_node: false
 elasticsearch_node_name: node-1
@@ -32,7 +32,12 @@ package_repos:
     opendistro:
       baseurl: 'https://packages.wazuh.com/4.x/yum/'
       gpg: 'https://packages.wazuh.com/key/GPG-KEY-WAZUH'
-      
+  apt:
+    opendistro:
+      repo: "deb https://packages.wazuh.com/4.x/apt/ stable main"
+      gpg: 'https://packages.wazuh.com/key/GPG-KEY-WAZUH'
+      key_id: '0DCFCA5547B19D2A6099506096B3EE5F29111145'
+
 opendistro_sec_plugin_conf_path: /usr/share/elasticsearch/plugins/opendistro_security/securityconfig
 opendistro_sec_plugin_tools_path: /usr/share/elasticsearch/plugins/opendistro_security/tools
 opendistro_conf_path: /etc/elasticsearch/
