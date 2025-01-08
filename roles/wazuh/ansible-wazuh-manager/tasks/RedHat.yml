@@ -10,7 +10,6 @@
   when:
     - (ansible_facts.os_family|lower == 'redhat') and (ansible_facts.distribution|lower != 'amazon')
     - (ansible_facts.distribution_major_version|int <= 5)
-    - not wazuh_manager_sources_installation.enabled
     - not wazuh_custom_packages_installation_manager_enabled
   register: repo_v5_manager_installed
 
@@ -100,7 +99,6 @@
   until: wazuh_manager_main_packages_installed is succeeded
   when:
     - ansible_facts.os_family|lower == "redhat"
-    - not wazuh_manager_sources_installation.enabled
     - not wazuh_custom_packages_installation_manager_enabled
   tags:
     - init

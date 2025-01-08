@@ -36,7 +36,6 @@
   when:
     - ansible_facts.distribution == "Ubuntu"
     - ansible_facts.distribution_major_version | int == 14
-    - not wazuh_agent_sources_installation.enabled
     - not wazuh_custom_packages_installation_agent_enabled
 
 - name: Debian/Ubuntu | Download Wazuh repository key
@@ -61,7 +60,6 @@
     mode: '0644'
   when:
     - not (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version | int == 14)
-    - not wazuh_agent_sources_installation.enabled
     - not wazuh_custom_packages_installation_agent_enabled
 
 - name: Debian/Ubuntu | Add Wazuh repositories
