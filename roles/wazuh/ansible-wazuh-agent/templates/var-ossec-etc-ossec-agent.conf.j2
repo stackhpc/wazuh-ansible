@@ -30,7 +30,7 @@
     <config-profile>{{ wazuh_profile_ubuntu }}</config-profile>
     {% endif %}
     {% endif %}
-    {% if ansible_system == "Darwin" %}
+    {% if ansible_facts.system == "Darwin" %}
     <config-profile>{{ wazuh_profile_macos }}</config-profile>
     {% endif %}
     {% if wazuh_notify_time is not none and wazuh_time_reconnect is not none %}
@@ -67,7 +67,7 @@
       {% if wazuh_agent_config.enrollment.agent_key_path | length > 0 %}
       <agent_key_path>{{ wazuh_agent_config.enrollment.agent_key_path }}</agent_key_path>
       {% endif %}
-      {% if wazuh_agent_config.enrollment.authorization_pass_path | length > 0 and ansible_system != "Darwin" %}
+      {% if wazuh_agent_config.enrollment.authorization_pass_path | length > 0 and ansible_facts.system != "Darwin" %}
       <authorization_pass_path>{{ wazuh_agent_config.enrollment.authorization_pass_path }}</authorization_pass_path>
       {% else %}
       <authorization_pass_path>{{ wazuh_agent_config.enrollment.authorization_pass_path_macos }}</authorization_pass_path>
