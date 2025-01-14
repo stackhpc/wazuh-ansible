@@ -190,7 +190,7 @@
   </wodle>
   {% endif %}
 
-  {% if ansible_system != "Darwin" %}
+  {% if ansible_facts.system != "Darwin" %}
   <wodle name="cis-cat">
     <disabled>{{ wazuh_agent_config.cis_cat.disable }}</disabled>
     <timeout>{{ wazuh_agent_config.cis_cat.timeout }}</timeout>
@@ -284,7 +284,7 @@
     {% endif %}
 
     <!-- Files/directories to ignore -->
-    {% if wazuh_agent_config.syscheck.ignore is defined and (ansible_system == "Linux" or ansible_system == "Darwin") %}
+    {% if wazuh_agent_config.syscheck.ignore is defined and (ansible_system == "Linux" or ansible_facts.system == "Darwin") %}
     {% for ignore in wazuh_agent_config.syscheck.ignore %}
     <ignore>{{ ignore }}</ignore>
     {% endfor %}
