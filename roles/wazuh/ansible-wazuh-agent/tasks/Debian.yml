@@ -43,13 +43,13 @@
     url: "{{ wazuh_agent_config.repo.gpg }}"
     dest: "{{ wazuh_agent_config.repo.path }}"
   when:
-    - not (ansible_distribution == "Ubuntu" and ansible_distribution_major_version | int == 14)
+    - not (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version | int == 14)
     - not wazuh_custom_packages_installation_agent_enabled
 
 - name: Debian/Ubuntu | Import Wazuh GPG key
   command: "gpg --no-default-keyring --keyring gnupg-ring:{{ wazuh_agent_config.repo.keyring_path }} --import {{ wazuh_agent_config.repo.path }}"
   when:
-    - not (ansible_distribution == "Ubuntu" and ansible_distribution_major_version | int == 14)
+    - not (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version | int == 14)
     - not wazuh_custom_packages_installation_agent_enabled
   args:
     creates: "{{ wazuh_agent_config.repo.keyring_path }}"
